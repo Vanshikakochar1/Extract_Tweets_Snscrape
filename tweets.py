@@ -1,0 +1,26 @@
+##  pip install snscrape
+import os
+import pandas as pd
+
+# fyingbeast320
+import snscrape.modules.twitter as sntwitter
+
+query = "(from:flyingbeast320) until:2023-01-01 since:2019-01-01"
+tweets = []
+limit = 150
+
+
+for tweet in sntwitter.TwitterSearchScraper(query).get_items():
+    
+    # print(vars(tweet))
+    # break
+    if len(tweets) == limit:
+        break
+    else:
+        tweets.append([tweet.date, tweet.username, tweet.content])
+        
+df = pd.DataFrame(tweets, columns=['Date', 'User', 'Tweet'])
+print(df)
+
+# to save to csv
+df.to_csv('tweets.csv')
